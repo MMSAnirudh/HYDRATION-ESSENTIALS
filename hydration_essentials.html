@@ -2,33 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hydration Essentials - Bottle Classifier</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration Essentials Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f9ff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #0f62fe;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        input[type="file"] {
+            display: block;
+            margin-top: 20px;
+        }
+        #output {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e0f7fa;
+            border-radius: 10px;
+            display: none;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0f62fe;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0353e9;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hydration Essentials</h1>
-        <p>Upload a water bottle image to classify its type</p>
+    <header>
+        <h1>Hydration Essentials: Water Bottle Classifier</h1>
+    </header>
+    <main>
+        <h2>Upload Your Bottle Image</h2>
+        <input type="file" id="imageInput" accept="image/*">
+        <button onclick="classifyBottle()">Predict</button>
 
-        <form action="/" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" id="fileInput" required>
-            <button type="submit">Classify</button>
-        </form>
-
-        {% if prediction %}
-            <div class="result">
-                <h2>Prediction: <span>{{ prediction }}</span></h2>
-            </div>
-        {% endif %}
-    </div>
+        <div id="output">
+            <h3>Prediction:</h3>
+            <p><strong>Class:</strong> <span id="predictedClass">-</span></p>
+            <p><strong>Confidence:</strong> <span id="confidence">-</span>%</p>
+        </div>
+    </main>
 
     <script>
-        const input = document.getElementById("fileInput");
-        input.onchange = () => {
-            if (input.files.length > 0) {
-                alert("File selected: " + input.files[0].name);
+        function classifyBottle() {
+            const fileInput = document.getElementById("imageInput");
+            const output = document.getElementById("output");
+            const predictedClass = document.getElementById("predictedClass");
+            const confidence = document.getElementById("confidence");
+
+            if (!fileInput.files.length) {
+                alert("Please upload an image first.");
+                return;
             }
-        };
+
+            // Simulated prediction (you can connect this to a real API/backend later)
+            const classes = ["Plastic", "Metal", "Glass", "Sipper", "Spray", "Jug"];
+            const randomClass = classes[Math.floor(Math.random() * classes.length)];
+            const randomConfidence = (80 + Math.random() * 20).toFixed(2);
+
+            predictedClass.textContent = randomClass;
+            confidence.textContent = randomConfidence;
+            output.style.display = 'block';
+        }
     </script>
 </body>
 </html>
